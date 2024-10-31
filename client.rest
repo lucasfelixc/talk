@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:3000
+
+# Messages
+
+###
+# @name GetAllMessages
+GET {{baseUrl}}/messages?limit=15&offset=5
+
+###
+# @name GetOneMessage
+GET {{baseUrl}}/messages/1
+
+###
+# @name PostOneMessage
+POST {{baseUrl}}/messages
+Content-Type: application/json
+
+{
+    "content": "This is a new message!",
+    "from": "John",
+    "to": "Doe",
+    "read": false,
+    "createdAt": "2024-10-31T12:05:03.094Z"
+}
+
+###
+# @name UpdateOneMessage
+PUT {{baseUrl}}/messages/2
+Content-Type: application/json
+
+{
+    "content": "This is a updated message!",
+    "from": "John",
+    "to": "Doe",
+    "read": false,
+    "createdAt": "2024-10-31T12:05:03.094Z"
+}
+
+###
+# @name UpdateOneMessage
+PATCH {{baseUrl}}/messages/1/message
+Content-Type: application/json
+
+{
+  "message": "Only message updated"
+}
+
+###
+# @name UpdateOneMessage
+DELETE {{baseUrl}}/messages/2
