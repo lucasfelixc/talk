@@ -12,6 +12,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
+import { CreateMessageDto } from './dto/create-message.dto';
+import { UpdateMessageDto } from './dto/update-message.dto';
 
 @Controller('messages')
 export class MessagesController {
@@ -30,28 +32,22 @@ export class MessagesController {
   }
 
   @Post()
-  create(@Body() body: any) {
-    return body;
+  create(@Body() createMessageDto: CreateMessageDto) {
+    return this.messagesService.create(createMessageDto);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() body: any) {
-    return {
-      id,
-      ...body,
-    };
+  update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
+    return this.messagesService.update(id, updateMessageDto);
   }
 
   @Patch(':id/message')
   updateMessage(@Param('id') id: string, @Body() body: any) {
-    return {
-      id,
-      ...body,
-    };
+    return this.messagesService.update(id, body);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return `This action removes the #${id} message`;
+    return this.messagesService.remove(id);
   }
 }

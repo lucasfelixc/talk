@@ -8,7 +8,7 @@ GET {{baseUrl}}/messages?limit=15&offset=5
 
 ###
 # @name GetOneMessage
-GET {{baseUrl}}/messages/1
+GET {{baseUrl}}/messages/2
 
 ###
 # @name PostOneMessage
@@ -42,7 +42,7 @@ PATCH {{baseUrl}}/messages/1/message
 Content-Type: application/json
 
 {
-  "message": "Only message updated"
+  "content": "Only message updated"
 }
 
 ###
