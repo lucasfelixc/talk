@@ -1,12 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { MessageEntity } from './entities/message.entity';
+import { Message } from './entities/message.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MessagesService {
+  constructor(
+    @InjectRepository(Message)
+    private readonly messageRepository: Repository<Message>,
+  ) {}
   private lastId = 1;
-  private messages: MessageEntity[] = [
+  private messages: Message[] = [
     {
       id: this.lastId,
       content: 'This is a message test!',
@@ -18,13 +24,13 @@ export class MessagesService {
   ];
 
   findAll() {
-    return this.messages;
+    return this.messageRepository.find();
   }
 
-  findOne(id: string) {
-    const message = this.messages.find(
-      (message) => message.id === parseInt(id),
-    );
+  async findOne(id: number) {
+    const message = await this.messageRepository.findOne({
+      where: { id: id },
+    });
 
     if (message) {
       return message;
@@ -34,15 +40,12 @@ export class MessagesService {
   }
 
   create(createMessageDto: CreateMessageDto) {
-    this.lastId++;
-    this.messages.push({
-      id: this.lastId,
+    const message = this.messageRepository.create({
       ...createMessageDto,
       read: false,
-      createdAt: new Date(),
     });
 
-    return this.messages[this.messages.length - 1];
+    return this.messageRepository.save(message);
   }
 
   update(id: string, updateMessageDto: UpdateMessageDto) {
@@ -64,15 +67,13 @@ export class MessagesService {
     return this.messages[messageIndex];
   }
 
-  remove(id: string) {
-    const removedMessageIndex = this.messages.findIndex(
-      (message) => message.id === parseInt(id),
-    );
+  async remove(id: number) {
+    const message = await this.messageRepository.findOneBy({ id: id });
 
-    if (removedMessageIndex < 0) {
+    if (!message) {
       throw new NotFoundException('Message not found');
     }
 
-    this.messages.splice(removedMessageIndex, 1);
+    return this.messageRepository.remove(message);
   }
 }

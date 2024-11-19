@@ -14,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: 'postgres',
       password: '123456',
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: true, // Sincroniza com o BD, não deve ser usado em produção
     }),
     MessagesModule,
   ],

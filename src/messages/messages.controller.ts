@@ -21,19 +21,23 @@ export class MessagesController {
 
   @HttpCode(HttpStatus.OK)
   @Get()
-  findAll(@Query() pagination: any) {
+  async findAll(@Query() pagination: any) {
     const { limit = 10, offset = 0 } = pagination;
-    return this.messagesService.findAll();
+    const messages = await this.messagesService.findAll();
+
+    return messages;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.messagesService.findOne(id);
   }
 
   @Post()
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+  async create(@Body() createMessageDto: CreateMessageDto) {
+    const message = await this.messagesService.create(createMessageDto);
+
+    return message;
   }
 
   @Put(':id')
@@ -47,7 +51,7 @@ export class MessagesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.messagesService.remove(id);
   }
 }

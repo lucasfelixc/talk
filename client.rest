@@ -8,7 +8,7 @@ GET {{baseUrl}}/messages?limit=15&offset=5
 
 ###
 # @name GetOneMessage
-GET {{baseUrl}}/messages/2
+GET {{baseUrl}}/messages/1
 
 ###
 # @name PostOneMessage
@@ -18,9 +18,7 @@ Content-Type: application/json
 {
     "content": "This is a new message!",
     "from": "John",
-    "to": "Doe",
-    "read": false,
-    "createdAt": "2024-10-31T12:05:03.094Z"
+    "to": "Doe"
 }
 
 ###
@@ -46,5 +44,5 @@ Content-Type: application/json
 }
 
 ###
-# @name UpdateOneMessage
+# @name RemoveOneMessage
 DELETE {{baseUrl}}/messages/2
