@@ -45,7 +45,6 @@ export class MessagesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateMessageDto: UpdateMessageDto,
   ) {
-    console.log('caiu aq');
     return this.messagesService.update(id, updateMessageDto);
   }
 
