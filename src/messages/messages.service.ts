@@ -11,17 +11,6 @@ export class MessagesService {
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
   ) {}
-  private lastId = 1;
-  private messages: Message[] = [
-    {
-      id: this.lastId,
-      content: 'This is a message test!',
-      from: 'John',
-      to: 'Doe',
-      read: false,
-      createdAt: new Date(),
-    },
-  ];
 
   findAll() {
     return this.messageRepository.find();
@@ -48,23 +37,17 @@ export class MessagesService {
     return this.messageRepository.save(message);
   }
 
-  update(id: string, updateMessageDto: UpdateMessageDto) {
-    const messageIndex = this.messages.findIndex(
-      (message) => message.id === parseInt(id),
-    );
+  async update(id: number, updateMessageDto: UpdateMessageDto) {
+    const message = await this.messageRepository.preload({
+      id: id,
+      ...updateMessageDto,
+    });
 
-    if (messageIndex < 0) {
+    if (!message) {
       throw new NotFoundException('Message not found');
     }
 
-    const message = this.messages[messageIndex];
-
-    this.messages[messageIndex] = {
-      ...message,
-      ...updateMessageDto,
-    };
-
-    return this.messages[messageIndex];
+    return this.messageRepository.save(message);
   }
 
   async remove(id: number) {

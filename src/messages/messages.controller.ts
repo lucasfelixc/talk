@@ -6,9 +6,9 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
-  Put,
   Query,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
@@ -40,14 +40,13 @@ export class MessagesController {
     return message;
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateMessageDto: UpdateMessageDto,
+  ) {
+    console.log('caiu aq');
     return this.messagesService.update(id, updateMessageDto);
-  }
-
-  @Patch(':id/message')
-  updateMessage(@Param('id') id: string, @Body() body: any) {
-    return this.messagesService.update(id, body);
   }
 
   @Delete(':id')
