@@ -15,12 +15,40 @@ export class MessagesService {
   ) {}
 
   findAll() {
-    return this.messageRepository.find();
+    const messages = this.messageRepository.find({
+      relations: ['from', 'to'],
+      order: {
+        id: 'desc',
+      },
+      select: {
+        from: {
+          id: true,
+          name: true,
+        },
+        to: {
+          id: true,
+          name: true,
+        },
+      },
+    });
+
+    return messages;
   }
 
   async findOne(id: number) {
     const message = await this.messageRepository.findOne({
       where: { id: id },
+      relations: ['from', 'to'],
+      select: {
+        from: {
+          id: true,
+          name: true,
+        },
+        to: {
+          id: true,
+          name: true,
+        },
+      },
     });
 
     if (message) {
