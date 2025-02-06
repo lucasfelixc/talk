@@ -1,5 +1,7 @@
 import {
+  IsBoolean,
   IsNotEmpty,
+  IsOptional,
   IsPositive,
   IsString,
   MaxLength,
@@ -12,6 +14,10 @@ export class CreateMessageDto {
   @MinLength(5)
   @MaxLength(255)
   readonly content: string;
+
+  @IsOptional()
+  @IsBoolean()
+  readonly read: boolean;
 
   @IsPositive()
   fromId: number;

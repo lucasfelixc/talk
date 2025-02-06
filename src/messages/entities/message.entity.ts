@@ -26,11 +26,11 @@ export class Message {
   @UpdateDateColumn()
   updatedAt?: Date;
 
-  @ManyToOne(() => Person)
+  @ManyToOne(() => Person, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'from' })
   from: Person;
 
-  @ManyToOne(() => Person)
+  @ManyToOne(() => Person, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'to' })
   to: Person;
 }
