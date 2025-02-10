@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ParseIntPipe, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +11,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       transform: false,
     }),
+    new ParseIntPipe(),
   );
 
   await app.listen(3000);
