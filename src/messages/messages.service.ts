@@ -5,7 +5,7 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PeopleService } from 'src/people/people.service';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+// import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class MessagesService {
@@ -15,12 +15,16 @@ export class MessagesService {
     private readonly peopleService: PeopleService,
   ) {}
 
-  findAll(paginationDto?: PaginationDto) {
-    const { limit = 10, offset = 0 } = paginationDto;
+  // findAll(paginationDto?: PaginationDto) {
+  findAll() {
+    console.log('MessagesService findAll executado');
+    // const { limit = 10, offset = 0 } = paginationDto;
+    const pagination = { limit: 10, offset: 0 };
+    // console.log(limit);
 
     const messages = this.messageRepository.find({
-      take: limit,
-      skip: offset,
+      take: pagination.limit,
+      skip: pagination.offset,
       relations: ['from', 'to'],
       order: {
         id: 'desc',

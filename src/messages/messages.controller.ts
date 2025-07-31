@@ -9,14 +9,15 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
+  // Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
-import { PaginationDto } from 'src/common/dto/pagination.dto';
+// import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { AddHeaderInterceptor } from 'src/common/interceptors/add-header.interceptor';
+import { TimingConnectionInterceptor } from 'src/common/interceptors/timing-connection.interceptor';
 
 @Controller('messages')
 export class MessagesController {
@@ -25,8 +26,11 @@ export class MessagesController {
   @HttpCode(HttpStatus.OK)
   @Get()
   @UseInterceptors(AddHeaderInterceptor)
-  async findAll(@Query() paginationDto: PaginationDto) {
-    return this.messagesService.findAll(paginationDto);
+  @UseInterceptors(TimingConnectionInterceptor)
+  // async findAll(@Query() paginationDto: PaginationDto) {
+  async findAll() {
+    console.log('MessagesController findAll executado');
+    return this.messagesService.findAll();
   }
 
   @Get(':id')
