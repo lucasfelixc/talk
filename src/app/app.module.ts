@@ -10,8 +10,9 @@ import { MessagesModule } from 'src/messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PeopleModule } from 'src/people/people.module';
 import { SimpleMiddleware } from 'src/common/middlewares/simple.middleware';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
+import { RoleGuard } from 'src/common/guards/role.guard';
 
 @Module({
   imports: [
@@ -34,6 +35,10 @@ import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
     },
   ],
 })
