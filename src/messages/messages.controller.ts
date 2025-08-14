@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Req,
   // Query,
   UseInterceptors,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 import { AddHeaderInterceptor } from 'src/common/interceptors/add-header.interceptor';
 import { TimingConnectionInterceptor } from 'src/common/interceptors/timing-connection.interceptor';
 import { ErrorHandlingInterceptor } from 'src/common/interceptors/error-handling.interceptor';
+import type { Request } from 'express';
 
 @Controller('messages')
 export class MessagesController {
@@ -29,8 +31,9 @@ export class MessagesController {
   @UseInterceptors(AddHeaderInterceptor)
   @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor)
   // async findAll(@Query() paginationDto: PaginationDto) {
-  async findAll() {
+  async findAll(@Req() req: Request) {
     console.log('MessagesController findAll executado');
+    console.log(req['user']);
     return this.messagesService.findAll();
   }
 
