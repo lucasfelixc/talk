@@ -3,8 +3,6 @@ import type { NextFunction, Request, Response } from 'express';
 
 export class SimpleMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    console.log('SimpleMiddleware is working!');
-
     req['user'] = {
       name: 'John Doe',
     };

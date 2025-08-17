@@ -1,18 +1,9 @@
-import {
-  Module,
-  RequestMethod,
-  type MiddlewareConsumer,
-  type NestModule,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessagesModule } from 'src/messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PeopleModule } from 'src/people/people.module';
-import { SimpleMiddleware } from 'src/common/middlewares/simple.middleware';
-import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
-import { RoleGuard } from 'src/common/guards/role.guard';
 
 @Module({
   imports: [
@@ -30,23 +21,6 @@ import { RoleGuard } from 'src/common/guards/role.guard';
     PeopleModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RoleGuard,
-    },
-  ],
+  providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(SimpleMiddleware).forRoutes({
-      path: '*',
-      method: RequestMethod.ALL,
-    });
-  }
-}
+export class AppModule {}

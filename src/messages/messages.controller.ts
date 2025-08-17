@@ -32,8 +32,6 @@ export class MessagesController {
   @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor)
   // async findAll(@Query() paginationDto: PaginationDto) {
   async findAll(@Req() req: Request) {
-    console.log('MessagesController findAll executado');
-    console.log(req['user']);
     return this.messagesService.findAll();
   }
 

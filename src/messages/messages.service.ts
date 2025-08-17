@@ -20,7 +20,6 @@ export class MessagesService {
     console.log('MessagesService findAll executado');
     // const { limit = 10, offset = 0 } = paginationDto;
     const pagination = { limit: 10, offset: 0 };
-    // console.log(limit);
 
     const messages = this.messageRepository.find({
       take: pagination.limit,
